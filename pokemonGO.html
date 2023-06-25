@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pokemon GO Info</title>
+    <style>
+        table tr th {
+            border: 1px solid #333;
+            padding: 2px 20px;
+            box-sizing: border-box;
+            background: #b0b0b0;
+        }
+
+        table tr td {
+            border: 1px solid #333;
+            padding: 5px 20px;
+            box-sizing: border-box;
+            font-size: 18px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 400px;
+        }
+
+        input {
+            width: 200px;
+            height: 18px;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<a href="index.html">Home</a>
+
+<body>
+    <br><br>
+    <input type="text" id="nameSearchBox" placeholder="Search by Name">
+    <br><br>
+    <table id="pokemonTable">
+        <thead>
+            <th>Pokedex #</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Buddy Walk Distance (km)</th>
+        </thead>
+    </table>
+</body>
+
+<script type="text/javascript">
+    fetch('pokemon.json')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            CreateRows(data);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+
+    function CreateRows(data) {
+        // Get the table to add to
+        let table = document.getElementById("pokemonTable");
+
+        // Get the pokemon data
+        let mainContainer = document.getElementById("myData");
+
+        // For each pokemon
+        for (let i = 0; i < data.length; i++) {
+            // Create a row specifying the last index (end)
+            let row = table.insertRow(-1);
+
+            let number = row.insertCell(0);
+            let name = row.insertCell(1);
+            let type = row.insertCell(2);
+            let walkDist = row.insertCell(3);
+
+            number.innerHTML = data[i].dex;
+            name.innerHTML = data[i].name;
+            walkDist.innerHTML = data[i].kmBuddyDistance;
+
+            let types = "";
+            for (let j = 0; j < data[i].types.length; j++) {
+                if (types == "") {
+                    types += data[i].types[j].name;
+                }
+                else {
+                    types += ", " + data[i].types[j].name;
+                }
+            }
+
+            type.innerHTML = types;
+        }
+    }
+</script>
+
+<script>
+    // single column search
+    var nameSearchBox = document.getElementById("nameSearchBox");
+    nameSearchBox.addEventListener("keyup", function () {
+        var keyword = this.value;
+        keyword = keyword.toUpperCase();
+        var pokemonTable = document.getElementById("pokemonTable");
+        var all_tr = pokemonTable.getElementsByTagName("tr");
+        for (var i = 0; i < all_tr.length; i++) {
+            var name_column = all_tr[i].getElementsByTagName("td")[1];
+            if (name_column) {
+                var name_value = name_column.textContent || name_column.innerText;
+                name_value = name_value.toUpperCase();
+                if (name_value.indexOf(keyword) > -1) {
+                    all_tr[i].style.display = ""; // show
+                } else {
+                    all_tr[i].style.display = "none"; // hide
+                }
+            }
+        }
+    });
+</script>
+
+</html>

@@ -5,38 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Title</title>
+    <title>Derek's Home Page</title>
 </head>
 
 <body>
-    <div id="myData"></div>
-    <script type="text/javascript">
-        fetch('pokemon.json')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                appendData(data);
-            })
-            .catch(function (err) {
-                console.log('error: ' + err);
-            });
-
-        function appendData(data) {
-            let mainContainer = document.getElementById("myData");
-            for (let i = 0; i < data.length; i++) {
-                let div = document.createElement("p");
-                div.innerHTML += '#' + data[i].dex + ' : ' + data[i].name;
-                div.innerHTML += '<br>- Types:';
-                for (let j = 0; j < data[i].types.length; j++) {
-                    div.innerHTML += '<br>&nbsp&nbsp&nbsp&nbsp- ' + data[i].types[j].name;
-                }
-                div.innerHTML += '<br>- Walk Distance: ' + data[i].kmBuddyDistance;
-                div.innerHTML += '<br>- Max CP: ' + data[i].maxCP;
-                mainContainer.appendChild(div);
-            }
-        }
-    </script>
+    <h1 style="text-align: center;">Welcome to my website!</h1>
+    <h3 style="text-align: center;">Below are some useful links:</h3>
+    <p>
+        <a href="pokemonGO.html">Pokemon GO</a>
+        - Here you can find relevant Pokemon GO information
+    </p>
 </body>
+
 
 </html>
